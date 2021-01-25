@@ -1,4 +1,6 @@
+#if SWIFT_PACKAGE
 import Foundation
+#endif
 
 public struct Application {
     /// Creates an returns a new application object representing the current application

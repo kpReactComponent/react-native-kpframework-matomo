@@ -30,5 +30,8 @@ module.exports = {
   },
   trackSearch: function(query, category, resultCount, url) {
     Matomo.trackSearch(query, {category, resultCount, url});
+  },
+  enableLog: function() {
+    Matomo.enableLog();
   }
 };

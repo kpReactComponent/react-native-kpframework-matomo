@@ -6,15 +6,19 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import org.matomo.sdk.Matomo;
+import org.matomo.sdk.QueryParams;
+import org.matomo.sdk.TrackMe;
 import org.matomo.sdk.Tracker;
 import org.matomo.sdk.TrackerBuilder;
 import org.matomo.sdk.extra.TrackHelper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import timber.log.Timber;
 
 public class MatomoModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
@@ -33,6 +37,7 @@ public class MatomoModule extends ReactContextBaseJavaModule implements Lifecycl
     public void initTracker(String url, int id) {
         TrackerBuilder builder = TrackerBuilder.createDefault(url, id);
         mMatomoTracker = builder.build(Matomo.getInstance(getReactApplicationContext()));
+        addTrackingListener(mMatomoTracker);
     }
 
     @ReactMethod
@@ -109,6 +114,11 @@ public class MatomoModule extends ReactContextBaseJavaModule implements Lifecycl
         getTrackHelper().track().download().with(mMatomoTracker);
     }
 
+    @ReactMethod
+    public void enableLog() {
+        Timber.plant(new Timber.DebugTree());
+    }
+
     @Override
     public String getName() {
         return "Matomo";
@@ -125,6 +135,32 @@ public class MatomoModule extends ReactContextBaseJavaModule implements Lifecycl
     }
 
     @Override
-    public void onHostDestroy() {}
+    public void onHostDestroy() {
+        removeTrackingListener(mMatomoTracker);
+    }
 
+
+    // 添加监听器
+    private void addTrackingListener(Tracker tracker) {
+        tracker.addTrackingCallback(new Tracker.Callback() {
+            @Nullable
+            @Override
+            public TrackMe onTrack(TrackMe trackMe) {
+                // 防止时间与服务器不同步导致无法上报数据
+                trackMe.set(QueryParams.DATETIME_OF_REQUEST, null);
+                return trackMe;
+            }
+        });
+    }
+
+    // 去掉监听器
+    private void removeTrackingListener(Tracker tracker) {
+        tracker.removeTrackingCallback(new Tracker.Callback() {
+            @Nullable
+            @Override
+            public TrackMe onTrack(TrackMe trackMe) {
+                return trackMe;
+            }
+        });
+    }
 }

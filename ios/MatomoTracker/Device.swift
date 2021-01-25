@@ -119,7 +119,7 @@ extension Device {
         // Returns the screen size in pixels
         internal static func nativeScreenSizeForCurrentDevice() ->  CGSize {
             let bounds = UIScreen.main.nativeBounds
-            return bounds.size
+            return bounds.size == CGSize.zero ? screenSizeForCurrentDevice() : bounds.size
         }
     }
 #endif

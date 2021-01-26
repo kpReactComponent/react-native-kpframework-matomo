@@ -74,8 +74,9 @@ RCT_EXPORT_METHOD(trackScreen: (NSString* _Nonnull)path title: (NSString* _Nulla
     RCTLogInfo(@"Tracking screen");
 #endif
     if (tracker != nil) {
-        NSArray* views = [path componentsSeparatedByString:@"/"];
-        [tracker trackWithView:views url:nil];
+        NSURL *url = [tracker.contentBase URLByAppendingPathComponent:path];
+        NSArray *views = title != nil ? @[title] : @[@""];
+        [tracker trackWithView:views url:url];
     }
 }
 

@@ -1,37 +1,69 @@
-var Matomo = require('react-native').NativeModules.Matomo;
+var Matomo = require("react-native").NativeModules.Matomo;
 module.exports = {
   initTracker: Matomo.initTracker,
-  setUserId: function(userId) {
-    if (userId !== null && userId !== userId !== undefined) {
-      Matomo.setUserId(userId + '');
+  setUserId: function (userId) {
+    if (userId !== null && (userId !== userId) !== undefined) {
+      Matomo.setUserId(userId + "");
     }
   },
-  setCustomDimension: function(id, value){
-    Matomo.setCustomDimension(id, value ? (value + '') : null);
+  setCustomDimension: function (id, value) {
+    Matomo.setCustomDimension(id, value ? value + "" : null);
   },
   trackAppDownload: Matomo.trackAppDownload,
-  trackScreen: function(path, title) {
-    Matomo.trackScreen(path, title);
+  trackScreen: function (path, title) {
+    try {
+      Matomo.trackScreen(path, title);
+    } catch (error) {
+      // do nothing
+    }
   },
-  trackGoal: function(goalId, revenue) {
-    Matomo.trackGoal(goalId, {revenue});
+  trackGoal: function (goalId, revenue) {
+    try {
+      Matomo.trackGoal(goalId, { revenue });
+    } catch (error) {
+      // do nothing
+    }
   },
-  trackEvent: function(category, action, name, value, url) {
-    Matomo.trackEvent(category, action, {name, value, url});
+  trackEvent: function (category, action, name, value, url) {
+    try {
+      Matomo.trackEvent(category, action, { name, value, url });
+    } catch (error) {
+      // do nothing
+    }
   },
-  trackCampaign: function(name, keyword) {
-    Matomo.trackCampaign(name, keyword);
+  trackCampaign: function (name, keyword) {
+    try {
+      Matomo.trackCampaign(name, keyword);
+    } catch (error) {
+      // do nothing
+    }
   },
-  trackContentImpression: function(name, piece, target) {
-    Matomo.trackContentImpression(name, {piece, target});
+  trackContentImpression: function (name, piece, target) {
+    try {
+      Matomo.trackContentImpression(name, { piece, target });
+    } catch (error) {
+      // do nothing
+    }
   },
-  trackContentInteraction: function(name, interaction, piece, target) {
-    Matomo.trackContentInteraction(name, {interaction, piece, target});
+  trackContentInteraction: function (name, interaction, piece, target) {
+    try {
+      Matomo.trackContentInteraction(name, { interaction, piece, target });
+    } catch (error) {
+      // do nothing
+    }
   },
-  trackSearch: function(query, category, resultCount, url) {
-    Matomo.trackSearch(query, {category, resultCount, url});
+  trackSearch: function (query, category, resultCount, url) {
+    try {
+      Matomo.trackSearch(query, { category, resultCount, url });
+    } catch (error) {
+      // do nothing
+    }
   },
-  enableLog: function() {
-    Matomo.enableLog();
-  }
+  enableLog: function () {
+    try {
+      Matomo.enableLog();
+    } catch (error) {
+      // do nothing
+    }
+  },
 };

@@ -163,4 +163,9 @@ RCT_EXPORT_METHOD(trackAppDownload)
 #endif
 }
 
+RCT_EXPORT_METHOD(enableLog)
+{
+    tracker.logger = [[DefaultLogger alloc] initWithMinLevel:LogLevelVerbose];
+}
+
 @end

@@ -1,0 +1,10 @@
+# other
+.idea
+
+# Examples
+example
+
+# Config
+.babelrc
+.gitignore
+.npmignore

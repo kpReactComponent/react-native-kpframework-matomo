@@ -62,7 +62,7 @@ fileprivate extension Event {
                 URLQueryItem(name: "m", value: DateFormatter.minuteDateFormatter.string(from: date)),
                 URLQueryItem(name: "s", value: DateFormatter.secondsDateFormatter.string(from: date)),
 
-                URLQueryItem(name: "cdt", value: DateFormatter.iso8601DateFormatter.string(from: date)),
+                // URLQueryItem(name: "cdt", value: DateFormatter.iso8601DateFormatter.string(from: date)),
                 
                 //screen resolution
                 URLQueryItem(name: "res", value:String(format: "%1.0fx%1.0f", screenResolution.width, screenResolution.height)),
